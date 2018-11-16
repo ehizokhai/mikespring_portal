@@ -14,5 +14,25 @@ class Result extends Model
     {
         return $this->belongsTo('App\Classroom');
     }
+
+    public function term()
+    {
+        return $this->belongsTo('App\Term');
+    }
+
+    public function session()
+    {
+        return $this->belongsTo('App\Session');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
+    public function subject()
+    {
+        return $this->belongsTo('App\Subject');
+    }
 }
 

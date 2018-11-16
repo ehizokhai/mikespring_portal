@@ -2,6 +2,10 @@
 use App\User;
 use App\Classroom;
 use App\Subject;
+use App\Cummulative;
+use App\Result;
+use App\Session;
+use App\Term;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,6 +32,8 @@ Route::get('/logout', 'StudentsController@logout');
 Route::get('/results', 'ResultsController@result');
 Route::get('/create_exam_sheet', 'ResultsController@create_result_sheet');
 Route::post('/create_sheet', 'ResultsController@create_sheet');
+Route::post('/submitResult', 'ResultsController@submitResult');
+Route::post('/markAsRelease', 'ResultsController@releaseResult');
 Route::get('/dashboard', function () {
 
     $studentcount = User::where('role_id', 3)->count();
@@ -42,6 +48,32 @@ Route::get('/dashboard', function () {
 Route::get('/', function () {
 return redirect('/dashboard');
 
+});
+
+Route::get('/getPdf/{sessionId}/{classroomId}/{termId}', function ($sessionId, $classroomId, $termId) {
+    $user = Auth::user();
+    $findSession = Session::find($sessionId);
+    $term = Term::find($termId);
+    $results = Result::where('session_id', $sessionId)->where('classroom_id', $classroomId)->where('term_id', $termId)
+    ->where('user_id', $user->id)->get();
+    $pdf = App::make('dompdf.wrapper');
+    //$pdf->loadHTML('<h1>Test</h1>');
+    $pdf = PDF::loadView('pdf.result', compact('results', 'user', 'findSession', 'term'));
+    //return $pdf->download('invoice.pdf');
+    return $pdf->stream();
+});
+
+Route::get('/getPdfs', function () {
+   
+    return view('student.pages.result');
+});
+
+Route::get('/releaseresults', 'ResultsController@releaseResult');
+Route::get('/student/home', function () {
+    $getUser = Auth::user();
+    $getCummulative = Cummulative::where('user_id', $getUser->id)->get();
+
+    return view('student.pages.home', compact('getUser', 'getCummulative'));
 });
 
 Route::post('/testarray', function () {
@@ -66,7 +98,8 @@ Route::post('/testarray', function () {
         })->join('subjects', function ($join) {
             $join->on('subjects.id', '=', 'results.subject_id');
 
-        })->get();
+        }) ->select('users.firstname', 'users.lastname', 'results.id as id', 'users.address', 
+         'subjects.title as title', 'terms.id as term_id', 'results.exam', 'results.test', 'results.benchmark', 'results.total')->get();
 
         return  response()->json([
             'msg' => 'User has been added',
@@ -75,6 +108,10 @@ Route::post('/testarray', function () {
         ]);
    // return $users;
 });
+
+Route::post('/markRelease', 'ResultsController@markRelease');
+Route::post('/markRevert', 'ResultsController@markRevert');
+Route::post('/check_pin', 'ResultsController@check_pin');
 
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');

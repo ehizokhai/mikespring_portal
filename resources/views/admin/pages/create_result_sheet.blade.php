@@ -27,9 +27,9 @@
                     <div class="col-12">
                         <div class="card">
                         <iframe name="votar" style="display:none;"></iframe>
-                        <form method="POST" target="votar" name="fileUploadForm" id="fileUploadForm" style="display:block;" action="/search_student"> 
+                        <form method="POST" target="votar" name="fileUploadForm" id="fileUploadForm" style="display:block;"> 
                                <div class="row p-t-20">
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <div class="form-group">
                                          <select id="session" name="session" class="form-control">
                                           @foreach($session as $sess)
@@ -39,7 +39,7 @@
                                         </div>
                                     </div> 
                                             <!--/span-->
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <div class="form-group has-danger">
                                                 <select id="classroom" name="classroom" class="form-control">
                                                     <option  value="">--- select classroom --</option>
@@ -49,7 +49,7 @@
                                                 </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <div class="form-group has-danger">
                                                 <select id="term" name="term" class="form-control">
                                                     <option  value="">--- select term --</option>
@@ -59,7 +59,12 @@
                                                 </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
+                                        <div class="form-group has-danger">
+                                          <input type="number" name="benchmark" id="benchmark" class="form-control" placeholder="Enter benchmark" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
                                                 <div class="form-group has-danger">
                                                     <button type="submit" id="create_sheet" class="btn btn-success"> <i class="fa fa-search"></i> Create</button>
                                             </div>
@@ -117,7 +122,6 @@ hot1 = new Handsontable(container1, settings1);
 hot1.render();
 
 
-
 function submitRes(){
     alert(JSON.stringify(objectData));
 }
@@ -141,7 +145,7 @@ $("#create_sheet").click(function (event) {
     $.ajax({
         type: "POST",
         enctype: 'multipart/form-data',
-        url: "/testarray",
+        url: "/create_sheet",
         data: data,
         headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

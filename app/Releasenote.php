@@ -4,17 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Cummulative extends Model
+class Releasenote extends Model
 {
     //
 
-    protected $fillable = [ 'classroom_id', 'term_id', 'session_id', 'user_id', 'total','released'];
-
-    public function user()
-    {
-        return $this->belongsTo('App\User', 'user_id');
-    }
-
+    protected $fillable = [ 'classroom_id', 'term_id', 'session_id', 'released'];
+    
     public function session()
     {
         return $this->belongsTo('App\Session', 'session_id');

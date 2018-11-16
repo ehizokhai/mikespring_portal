@@ -37,6 +37,14 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+
+    public function username(){
+        $loginType = request()->input('reg_no');
+        $this->reg_no = filter_var($loginType, FILTER_VALIDATE_EMAIL) ? 'email' : 'reg_no';
+        request()->merge([$this->reg_no => $loginType]);
+        return property_exists($this, 'reg_no') ? $this->reg_no : 'email';
+    }
+
     public function redirectTo(){
         
         // User role
@@ -47,8 +55,8 @@ class LoginController extends Controller
             case 4:
                     return '/dashboard';
                 break;
-            case 'Employee':
-                    return '/projects';
+            case 3:
+                    return '/student/home';
                 break; 
             default:
                     return '/login'; 

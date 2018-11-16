@@ -14,7 +14,7 @@
                                 <li><a href="index1.html">Analytics </a></li>
                             </ul> -->
                         </li>
-                        <li class="nav-label">STUDENT</li>
+                     {{--   <li class="nav-label">STUDENT</li>
                         <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-envelope"></i><span class="hide-menu">Search Student</span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="/search_current_student">Current session</a></li>
@@ -50,8 +50,8 @@
                         </li>
 						<li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-suitcase"></i><span class="hide-menu">Registration 
                         <!-- <span class="label label-rouded label-danger pull-right">6</span> -->
-                        </span></a>
-                            <ul aria-expanded="false" class="collapse">
+                        </span></a> --}}
+                          {{--  <ul aria-expanded="false" class="collapse">
                                <li><a href="/registration">Register Students</a></li>
                                 <!-- <li><a href="uc-calender.html">Calender</a></li>
                                 <li><a href="uc-datamap.html">Datamap</a></li>
@@ -67,14 +67,13 @@
                         </span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="/create_exam_sheet">Create Exam Sheet</a></li>
-                                <li><a href="/results">Enter Results</a></li>
-                                <li><a href="/releaseresults">Release Results</a></li>
+                                <li><a href="/results">Results</a></li>
                                 <!-- <li><a href="ui-dropdown.html">Dropdown</a></li>
                                 <li><a href="ui-progressbar.html">Progressbar</a></li>
                                 <li><a href="ui-tab.html">Tab</a></li>
                                 <li><a href="ui-typography.html">Typography</a></li> -->
                             </ul>
-                        </li>
+                        </li>--}}
 						
                         <!-- <li> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-table"></i><span class="hide-menu">Tables</span></a>
                             <ul aria-expanded="false" class="collapse">

@@ -115,9 +115,14 @@
                                 <img src="{{asset('images/logomain.png')}}"  width="50px" height="50px" />
                                  <form class="form-horizontal" method="POST" action="{{ route('login') }}">
                                  {{ csrf_field() }}
-                                    <div class="form-group {{ $errors->has('email') ? ' has-error' : '' }}">
+                                    <div class="form-group {{ $errors->has('email') ||  $errors->has('reg_no') ? ' has-error' : '' }}">
                                         <label>Email address</label>
-                                        <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
+                                        <input id="reg_no" type="text" class="form-control" name="reg_no" value="{{ old('reg_no') }}" required autofocus>
+                                        @if ($errors->has('reg_no'))
+                                          <span class="help-block">
+                                             <strong>{{ $errors->first('reg_no') }}</strong>
+                                          </span>
+                                        @endif
                                         @if ($errors->has('email'))
                                           <span class="help-block">
                                              <strong>{{ $errors->first('email') }}</strong>

@@ -23,6 +23,19 @@
     <link href="{{asset('css/style.css')}}" rel="stylesheet">
     <link href="{{asset('css/jquery-confirm.css')}}" rel="stylesheet">
     <link href="{{asset('css/jquery.loading.min.css')}}" rel="stylesheet">
+    <style>
+    .studentInfo{
+        font-size: 14px;
+      }
+      main{
+        font-size: 10px;
+        font-weight: 600;
+      }
+      .schoolLogo{
+        max-width: 100px;
+        height:60px;
+      }
+    </style>  
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesnt work if you view the page via file:** -->
     <!--[if lt IE 9]>

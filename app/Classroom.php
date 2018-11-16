@@ -19,10 +19,19 @@ class Classroom extends Model
         return $this->hasMany('App\User');
     }
 
-    
 
     public function result()
     {
         return $this->hasMany('App\Result');
+    }
+
+    public function cummulative()
+    {
+        return $this->hasMany('App\Cummulative');
+    }
+
+    public function releasenote()
+    {
+        return $this->hasMany('App\Releasenote');
     }
 }

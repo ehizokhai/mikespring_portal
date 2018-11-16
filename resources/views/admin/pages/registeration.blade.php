@@ -264,6 +264,7 @@ function readURL(input) {
     }
 
  $('#blah').hide();
+ 
 $(document).ready(function () {
 
 $("#btnSubmit").click(function (event) {
