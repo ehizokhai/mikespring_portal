@@ -96,7 +96,7 @@
 <![endif]-->
 </head>
 
-<body class="fix-header fix-sidebar">
+<body class="fix-header fix-sidebar" style="background-image: url({{asset('images/building.jpg')}}); overflow: hidden">
     <!-- Preloader - style you can find in spinners.css -->
     <div class="preloader">
         <svg class="circular" viewBox="25 25 50 50">
@@ -109,11 +109,11 @@
             <div class="container-fluid">
                 <div class="row justify-content-center">
                     <div class="col-lg-4">
-                        <div class="login-content card">
-                            <div class="login-form">
+                        <div class="login-content card" style="margin: 48px 0; background: rgba(255,255,255, 0.5)">
+                            <div class="login-form " style="background: rgba(255,255,255, 0.5)">
                                 <!-- <h4>Login</h4> -->
                                 <img src="{{asset('images/logomain.png')}}"  width="50px" height="50px" />
-                                 <form class="form-horizontal" method="POST" action="{{ route('login') }}">
+                                 <form  style="background: rgba(255,255,255, 0.1)" class="form-horizontal" method="POST" action="{{ route('login') }}">
                                  {{ csrf_field() }}
                                     <div class="form-group {{ $errors->has('email') ||  $errors->has('reg_no') ? ' has-error' : '' }}">
                                         <label>Email address</label>

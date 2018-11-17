@@ -98,6 +98,8 @@ class ResultsController extends Controller
            $newResult = Result::find($id);
            $newResult->exam =  $arrayData[$i]['examRow'];
            $newResult->test =  $arrayData[$i]['testRow'];
+           $newResult->remarks =  $arrayData[$i]['remarkRow'];
+           $newResult->grade =  $arrayData[$i]['gradeRow'];
            $newResult->total =  (int)$arrayData[$i]['examRow'] + (int)$arrayData[$i]['testRow'];
            if($newResult->save()){
              $newCum = Cummulative::where('session_id', $newResult->session_id)
@@ -187,4 +189,66 @@ class ResultsController extends Controller
         ]);
       }
     } 
+
+    public function enter_position(){
+
+        $classroom = Classroom::get();
+        $session = Session::get();
+        $term = Term::get();
+        return view('admin.pages.enterposition', compact('classroom', 'session', 'term'));
+    }
+
+
+    public function post_position(){
+
+        
+        $users =  Cummulative::join('users', function ($join) {
+            $join->on('users.id', '=', 'cummulatives.user_id');
+        })->join('classrooms', function ($join) {
+            $join->on('classrooms.id', '=', 'cummulatives.classroom_id')
+                 ->where('classrooms.id', '=', 5);
+        })->join('sessions', function ($join) {
+            $join->on('sessions.id', '=', 'cummulatives.session_id')
+                 ->where('sessions.id', '=', 3);
+        })->join('terms', function ($join) {
+            $join->on('terms.id', '=', 'cummulatives.term_id')
+                 ->where('terms.id', '=',1);
+        })->select('cummulatives.*', 'users.firstname', 'users.lastname', 'cummulatives.id as id', 'users.address', 
+          'terms.name as term_id', 'sessions.name as session_name', 'classrooms.name as classroom_name')
+          ->orderBy('cummulatives.total', 'asc')->get();
+        
+         /// return $users;
+        return  response()->json([
+            'msg' => 'User has been added',
+            'title' => 'success',
+            'data' => $users,
+        ]);
+    }
+  
+    public function submitPosition(Request $request){
+      
+
+        //Log::info($request->data);
+        $arrayData = $request->data;
+        // for($i = 0; $i < count($arrayVal); ++$i) {
+        //     Log::info($arrayVal[$i]['id']);
+        // }
+        // return null;
+
+        for($i = 0; $i < count($arrayData); ++$i){
+            
+           // $this->info('Display this on the screen');
+           //return Log::info($arrayData[$i]['id']);
+           $id = (int)$arrayData[$i]['id'];
+         //  Log::info($id);
+           $newResult = Cummulative::find($id);
+           $newResult->teacher_remarks =  $arrayData[$i]['remarkRow'];
+           $newResult->position =  $arrayData[$i]['positionRow'];
+           $newResult->save();
+        }
+        return  response()->json([
+            'msg' => 'User has been added',
+            'title' => 'success'
+        ]);
+    }
 }

@@ -67,6 +67,20 @@ class SubjectController extends Controller
 
     }
 
+    public function getSubjects(Request $request){
+     //$getSubject= Classroomsubject::where('classroom_id', $request->classId)->get();
+
+     $subjects = Classroomsubject::where('classroomsubjects.classroom_id', $request->classId)->join('subjects', function ($join) {
+         $join->on('classroomsubjects.subject_id', '=', 'subjects.id');
+     })->select('classroomsubjects.*', 'subjects.id as id', 'subjects.title as subject_name')->get();
+
+        return response()->json([
+            'data' => $subjects,
+            'title' => 'success'
+        ]);
+    }
+
+
     public function classroomsubject()
     {
         $classroomSubject = Classroomsubject::get();

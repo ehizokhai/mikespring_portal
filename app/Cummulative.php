@@ -8,7 +8,7 @@ class Cummulative extends Model
 {
     //
 
-    protected $fillable = [ 'classroom_id', 'term_id', 'session_id', 'user_id', 'total','released'];
+    protected $fillable = [ 'classroom_id', 'term_id', 'session_id', 'user_id', 'total','released', 'checked', 'position', 'teacher_remarks'];
 
     public function user()
     {

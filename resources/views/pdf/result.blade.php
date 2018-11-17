@@ -105,18 +105,32 @@ main table, main th, main td {
 
       <table border="0" style="margin-top:10px">
         <tr><th>Position</th><th>Definition</th></tr>
-        <tr><td>5th</td> <td>Average</td></tr>
-        <tr><td></td> <td></td></tr>
+        <tr><td>{{$cummu->position}}</td> <td>Average</td></tr>
         <tr>
-          <td colspan="6">Class Teacher Remarks:</td> <td colspan="3">
-            
+          <th colspan="2">Class Teacher Remarks: <p style="font-weight:100">{{$cummu->teacher_remarks}}</p></th>
+          </tr>
+          
+        <!-- <tr><td colspan="6">
+
+          </td></tr> -->
+      </table>
+      <br>
+      </br>
+      </br>
+      <table>
+       <tbody>
+        <tr>
+          <td colspan="1">Class Teacher Signature:</td> <td colspan="2">
+            ..............................................................................................................
           </td>
         </tr>
-        <tr><td colspan="6">
-           
-          </td></tr>
-      </table>
-
+        <tr><td colspan="3">
+           Date .....................................................................................................................
+          </td>
+        </tr>
+       </tbody>
+      </table>  
+      </div>
       <div id="notices">
        <!--  <div>NOTICE:</div>
        <div class="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>

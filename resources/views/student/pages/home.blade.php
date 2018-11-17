@@ -91,9 +91,11 @@
                                                 @if($cummulative->released == "true" && $cummulative->checked == "false")
                                                 <form id="pinE">
                                                     <button id="enterPin{{$cummulative->id}}" type="button" value="{{$cummulative->id}}" class="btn btn-primary" >Enter pin <button>
-                                                <form>    
+                                                </form>    
                                                 @elseif($cummulative->released == "true" && $cummulative->checked == "true")
-                                                <button type="button" id="rel{{$cummulative->id}}" value="{{$cummulative->id}}" class="btn btn-success" >View Result <button>
+                                                <form method="GET" action="/getPdf/{{$cummulative->session_id}}/{{$cummulative->classroom_id}}/{{$cummulative->term_id}}">
+                                                <button type="submit" id="rel{{$cummulative->id}}" value="{{$cummulative->id}}" class="btn btn-success" >View Result <button>
+                                                </form>
                                                 @elseif($cummulative->released == "false" && $cummulative->checked == "false")
                                                 <p style="color:red">Not yet available </p>
                                                 @endif

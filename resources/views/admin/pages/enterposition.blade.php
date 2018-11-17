@@ -1,6 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
+{{--
 <!-- <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -20,7 +21,7 @@
         </div>
     </div>
 </div> -->
-
+--}}
 
             <div class="container-fluid">
                 <div class="row">
@@ -133,20 +134,20 @@ var
 
 hot6 = new Handsontable(container, {
   data: testA,
-  dataSchema: {id: null, firstname: null,  address: null, title: null, term_id:null, exam: null, test: null, grade: null, remarks: null},
+  dataSchema: {id: null, firstname: null,  lastname: null, session_name: null, classroom_name:null, term_id: null,  total: null, position: null, teacher_remarks: null},
   startRows: 5,
   startCols: 4,
-  colHeaders: ['ID', 'First Name', 'Address', 'Subject', 'Term', 'Exam', 'CA', 'Grade', 'Remarks'],
+  colHeaders: ['ID', 'First Name', 'Lastname', 'Session', 'Classroom', 'Term', 'Total', 'Position', 'Remarks'],
   columns: [
     {data: 'id'},
     {data: 'firstname'},
-    {data: 'address'},
-    {data: 'title'},
+    {data: 'lastname'},
+    {data: 'session_name'},
+    {data: 'classroom_name'},
     {data: 'term_id'},
-    {data: 'exam'},
-    {data: 'test'},
-    {data: 'grade'},
-    {data: 'remarks'},
+    {data: 'total'},
+    {data: 'position'},
+    {data: 'teacher_remarks'},
   ],
   minSpareRows: 1
 });
@@ -157,20 +158,20 @@ function submitRes(){
     //hot6.destroy();
   new Handsontable(container, {
   data: testA,
-  dataSchema: {id: null, firstname: null,  address: null, Subject: null, Term:null, Exam: null, CA: null, grade: null, remarks: null},
+  dataSchema: {id: null, firstname: null,  lastname: null, session_name: null, classroom_name:null, term_id: null,  total: null, position: null, teacher_remarks: null},
   startRows: 5,
   startCols: 4,
-  colHeaders: ['ID', 'First Name', 'Address', 'Subject', 'Term', 'Exam', 'CA', 'Grade', 'Remarks'],
+  colHeaders: ['ID', 'First Name', 'Lastname', 'Session', 'Classroom', 'Term', 'Total', 'Position', 'Remarks'],
   columns: [
     {data: 'id'},
     {data: 'firstname'},
-    {data: 'address'},
-    {data: 'title'},
+    {data: 'lastname'},
+    {data: 'session_name'},
+    {data: 'classroom_name'},
     {data: 'term_id'},
-    {data: 'exam'},
-    {data: 'test'},
-    {data: 'grade'},
-    {data: 'remarks'},
+    {data: 'total'},
+    {data: 'position'},
+    {data: 'teacher_remarks'},
   ],
   minSpareRows: 1
 });
@@ -186,7 +187,6 @@ var changedData = [];
 $("#create_sheet").click(function (event) {
     //stop submit the form, we will post it manually.
     event.preventDefault();
-    
     // Get form
     var form = $('#fileUploadForm')[0];
    // var token = "{{csrf_token()}}";
@@ -210,7 +210,7 @@ $("#create_sheet").click(function (event) {
     $.ajax({
         type: "POST",
         enctype: 'multipart/form-data',
-        url: "/testarray",
+        url: "/post_position",
         data: data,
         headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -246,41 +246,38 @@ $("#create_sheet").click(function (event) {
                 //hot6.destroy();
             hot6 =    new Handsontable(container, {
             data: testA,
-            dataSchema: {id: null, firstname: null, lastname:null,  address: null, title: null, term_id:null, exam: null, test: null, grade: null, remarks: null},
+            dataSchema: {id: null, firstname: null,  lastname: null, session_name: null, classroom_name:null, term_id: null,  total: null, position: null, teacher_remarks: null},
             startRows: 5,
             startCols: 4,
             observeChanges: true,
-            colHeaders: ['ID', 'First Name', 'Lastname', 'Address', 'Subject', 'Term', 'Exam', 'CA', 'Grade', 'Remarks'],
+            colHeaders: ['ID', 'First Name', 'Lastname', 'Session', 'Classroom', 'Term', 'Total', 'Position', 'Remarks'],
             columns: [
-                {data: 'id', readOnly: true},
-                {data: 'firstname', readOnly: true},
-                {data: 'lastname', readOnly: true},
-                {data: 'address', readOnly: true},
-                {data: 'title', readOnly: true},
-                {data: 'term_id', readOnly: true},
-                {data: 'exam', type: 'numeric'},
-                {data: 'test', type: 'numeric'},
-                {data: 'grade'},
-                {data: 'remarks'},
+                {data: 'id'},
+                {data: 'firstname'},
+                {data: 'lastname'},
+                {data: 'session_name'},
+                {data: 'classroom_name'},
+                {data: 'term_id'},
+                {data: 'total'},
+                {data: 'position'},
+                {data: 'teacher_remarks'},
             ],
             afterChange: (changes, source)=> {
                // alert(changes)
                 window.changes = changes;
                 console.log(changes);
                 let changeArray = changes[0][0];
-                const remarkRow = testA[changeArray].remarks;
-                const gradeRow = testA[changeArray].grade;
-                const examRow = testA[changeArray].exam;
-                const testRow = testA[changeArray].test;
+                const remarkRow = testA[changeArray].teacher_remarks;
+                const positionRow = testA[changeArray].position;
                 const cellId = testA[changeArray].id;
             //alert(testA[changeArray].total );
-            testA[changeArray].total = parseInt(examRow) + parseInt(testRow);
+           // testA[changeArray].total = parseInt(examRow) + parseInt(testRow);
            // alert(examRow);
            // alert(testRow);
             //testA = [...testA];
             //alert(testA[changeArray].test);
             //hot6.render();
-            testFunction(cellId, testRow, examRow, gradeRow, remarkRow);
+            testFunction(cellId, remarkRow, positionRow);
            },
             minSpareRows: 1
         });
@@ -299,11 +296,11 @@ $("#create_sheet").click(function (event) {
 
   });
 
-testFunction = (cellId, testRow, examRow, gradeRow, remarkRow) =>{
+testFunction = (cellId, remarkRow, positionRow) =>{
 
  if(changedData.length < 1){
 
-    return  changedData.push({ id: cellId, testRow: testRow, examRow: examRow, gradeRow: gradeRow, remarkRow: remarkRow });
+    return  changedData.push({ id: cellId, remarkRow: remarkRow, positionRow: positionRow });
  } 
    let inArray = -1;
   for(var i =0; i < changedData.length; ++i){
@@ -312,10 +309,10 @@ testFunction = (cellId, testRow, examRow, gradeRow, remarkRow) =>{
   }
 if (inArray > -1) {
         changedData.splice(inArray, 1);
-        changedData.push({ id: cellId, testRow: testRow, examRow: examRow, gradeRow: gradeRow, remarkRow: remarkRow });
+        changedData.push({ id: cellId, remarkRow: remarkRow, positionRow: positionRow });
        // hot6.render();
    } else {
-        changedData.push({ id: cellId, testRow: testRow, examRow: examRow, gradeRow: gradeRow, remarkRow: remarkRow });
+        changedData.push({ id: cellId, remarkRow: remarkRow, positionRow: positionRow });
        // hot6.render();
    }
 
@@ -388,7 +385,7 @@ if (inArray > -1) {
 
    jQuery.ajax({
    type: "POST", // Post / Get method
-   url: "/submitResult", //Where form data is sent on submission
+   url: "/submitPosition", //Where form data is sent on submission
    dataType:"text", // Data type, HTML, json etc.
    data:{data: changedData,  "_token": "{{ csrf_token() }}"}, //Form variables
    success:function(response){

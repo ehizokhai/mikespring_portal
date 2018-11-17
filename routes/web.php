@@ -6,6 +6,7 @@ use App\Cummulative;
 use App\Result;
 use App\Session;
 use App\Term;
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -34,6 +35,10 @@ Route::get('/create_exam_sheet', 'ResultsController@create_result_sheet');
 Route::post('/create_sheet', 'ResultsController@create_sheet');
 Route::post('/submitResult', 'ResultsController@submitResult');
 Route::post('/markAsRelease', 'ResultsController@releaseResult');
+Route::post('/getSubjects', 'SubjectController@getSubjects');
+Route::get('/enterposition', 'ResultsController@enter_position');
+Route::post('/post_position', 'ResultsController@post_position');
+Route::post('/submitPosition', 'ResultsController@submitPosition');
 Route::get('/dashboard', function () {
 
     $studentcount = User::where('role_id', 3)->count();
@@ -54,14 +59,18 @@ Route::get('/getPdf/{sessionId}/{classroomId}/{termId}', function ($sessionId, $
     $user = Auth::user();
     $findSession = Session::find($sessionId);
     $term = Term::find($termId);
+    $cummu = Cummulative::where('classroom_id', $classroomId)
+    ->where('session_id', $sessionId)->where('term_id', $termId)
+    ->where('user_id', $user->id)->first();
     $results = Result::where('session_id', $sessionId)->where('classroom_id', $classroomId)->where('term_id', $termId)
     ->where('user_id', $user->id)->get();
     $pdf = App::make('dompdf.wrapper');
     //$pdf->loadHTML('<h1>Test</h1>');
-    $pdf = PDF::loadView('pdf.result', compact('results', 'user', 'findSession', 'term'));
+    $pdf = PDF::loadView('pdf.result', compact('results', 'user', 'findSession', 'term', 'cummu'));
     //return $pdf->download('invoice.pdf');
     return $pdf->stream();
 });
+
 
 Route::get('/getPdfs', function () {
    
@@ -83,23 +92,23 @@ Route::post('/testarray', function () {
     // ->join('terms', 'term.id', '=', 'results.term_id')
     // ->get();
 
-   $users =  DB::table('results')
-        ->join('users', function ($join) {
+   $users =  Result::join('users', function ($join) {
             $join->on('users.id', '=', 'results.user_id');
         })->join('classrooms', function ($join) {
             $join->on('classrooms.id', '=', 'results.classroom_id')
-                 ->where('classrooms.id', '=', 5);
+                 ->where('classrooms.id', '=', request('classroom'));
         })->join('sessions', function ($join) {
             $join->on('sessions.id', '=', 'results.session_id')
-                 ->where('sessions.id', '=', 3);
+                 ->where('sessions.id', '=', request('session'));
         })->join('terms', function ($join) {
             $join->on('terms.id', '=', 'results.term_id')
-                 ->where('terms.id', '=', 1);
+                 ->where('terms.id', '=', request('term'));
         })->join('subjects', function ($join) {
-            $join->on('subjects.id', '=', 'results.subject_id');
+            $join->on('subjects.id', '=', 'results.subject_id')
+            ->where('subjects.id', '=', request('subjects'));
 
         }) ->select('users.firstname', 'users.lastname', 'results.id as id', 'users.address', 
-         'subjects.title as title', 'terms.id as term_id', 'results.exam', 'results.test', 'results.benchmark', 'results.total')->get();
+         'subjects.title as title', 'terms.id as term_id', 'results.grade', 'results.remarks', 'results.exam', 'results.test', 'results.benchmark', 'results.total')->get();
 
         return  response()->json([
             'msg' => 'User has been added',

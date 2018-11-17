@@ -69,6 +69,7 @@
                                 <li><a href="/create_exam_sheet">Create Exam Sheet</a></li>
                                 <li><a href="/results">Enter Results</a></li>
                                 <li><a href="/releaseresults">Release Results</a></li>
+                                <li><a href="/enterposition">Enter Position</a></li>
                                 <!-- <li><a href="ui-dropdown.html">Dropdown</a></li>
                                 <li><a href="ui-progressbar.html">Progressbar</a></li>
                                 <li><a href="ui-tab.html">Tab</a></li>
